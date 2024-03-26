@@ -53,7 +53,7 @@ class ProjectController extends Controller
                 'title' => 'required|string|min:5|max:50|unique:projects',
                 'image' => 'nullable|image|mimes:png,jpg',
                 'content' => 'required|string',
-                'type_id' => 'nullable|exists:categories,id',
+                'type_id' => 'nullable|exists:types,id',
                 'technologies' => 'nullable|exists:technologies,id'
             ],
             [
@@ -118,7 +118,7 @@ class ProjectController extends Controller
                 'title' => ['required', 'string', 'min:5', 'max:50', Rule::unique('projects')->ignore($project->id)],
                 'image' => 'nullable|image|mimes:png,jpg',
                 'content' => 'required|string',
-                'type_id' => 'nullable|exists:categories,id',
+                'type_id' => 'nullable|exists:types,id',
                 'technologies' => 'nullable|exists:technologies,id'
             ],
             [
