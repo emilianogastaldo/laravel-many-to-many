@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Project;
+use App\Models\Technology;
 use App\Models\Type;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
@@ -39,5 +41,17 @@ class ProjectFactory extends Factory
             'image' => $img_url,
             'is_published' => fake()->boolean(),
         ];
+    }
+
+    public function configure()
+    {
+        // Creo la funzione che mi genera in automatico delle tecnologie per i progetti
+        return $this->afterCreating(function (Project $project) {
+            // raccolgo le tecnologie
+            $tech_ids = Technology::pluck('id')->toArray();
+            // randomizzo quali tecnologie appartengono ai progetti
+            $project_techs = array_filter($tech_ids, fn () => rand(0, 1));
+            $project->technologies()->attach($project_techs);
+        });
     }
 }
