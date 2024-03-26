@@ -19,6 +19,7 @@
                 @enderror
             </div>
         </div>
+        {{-- Slug --}}
         <div class="col-6">
             <label for="slug">Slug</label>
             <input type="text" id="slug" class="form-control my-2" value="{{Str::slug(old('title', $project->title))}}" disabled >
@@ -55,6 +56,15 @@
                 <div class="invalid-feedback">{{$message}}</div>
                 @enderror
             </div>
+        </div>
+        <div class="col-12">
+            <label for="technologies">Seleziona le tecnologie usate:</label>
+            @foreach ($techs as $tech)
+            <div class="form-check form-check-inline" id="technologies">
+                <input class="form-check-input" type="checkbox" id="{{"tech-$tech->id"}}" value="{{$tech->id}}" name="techs[]" @if (in_array($tech->id, old('techs', []))) checked @endif>
+                <label class="form-check-label" for="{{"tech-$tech->id"}}">{{$tech->label}}</label>                    
+            </div>
+            @endforeach
         </div>
         {{-- Input content --}}
         <div class="col-12">
