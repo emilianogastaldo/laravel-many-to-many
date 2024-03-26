@@ -53,7 +53,8 @@ class ProjectController extends Controller
                 'title' => 'required|string|min:5|max:50|unique:projects',
                 'image' => 'nullable|image|mimes:png,jpg',
                 'content' => 'required|string',
-                'type_id' => 'nullable|exists:categories,id'
+                'type_id' => 'nullable|exists:categories,id',
+                'technologies' => 'nullable|exists:technologies,id'
             ],
             [
                 'title.required' => 'Il titolo è obbligatorio',
@@ -63,22 +64,27 @@ class ProjectController extends Controller
                 'image.image' => 'Carica una immagine',
                 'image.mimes' => 'Si supportano solo le immagini con estensione .png o .jpg',
                 'content.required' => 'La descrizione è obbligatoria',
-                'type_id.exists' => 'Categoria non valida'
-
+                'type_id.exists' => 'Categoria non valida',
+                'technologies.exists' => 'Tecnologia scelta non valida'
             ]
         );
+        // Recupero i dati dopo averli validati
         $data = $request->all();
+        // creoun nuovo Project e lo riempio
         $new_project = new Project();
         $new_project['slug'] = Str::slug($data['title']);
-
         if (Arr::exists($data, 'image')) {
             $extension = $data['image']->extension();
             $img_url = Storage::putFileAs('project_images', $data['image'], "{$new_project['slug']}.$extension");
             $new_project['image'] = $img_url;
         }
-
         $new_project->fill($data);
+
+        // salvo il progetto
         $new_project->save();
+
+        // creo la realzione tra progetto e tecnologia
+        if (Arr::exists($data, 'techs')) $new_project->technologies()->attach($data['techs']);
 
         return to_route('admin.projects.show', $new_project)->with('message', 'Pogretto creato con successo')->with('type', 'success');
     }
