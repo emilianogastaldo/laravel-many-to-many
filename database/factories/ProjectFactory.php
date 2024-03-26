@@ -45,7 +45,8 @@ class ProjectFactory extends Factory
 
     public function configure()
     {
-        // Creo la funzione che mi genera in automatico delle tecnologie per i progetti
+        // Creo la funzione che mi riempie i progetti di tecnologie
+        // funziona solo se creo i progetti DOPO le tecnologie
         return $this->afterCreating(function (Project $project) {
             // raccolgo le tecnologie
             $tech_ids = Technology::pluck('id')->toArray();
