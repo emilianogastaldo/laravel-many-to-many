@@ -5,9 +5,24 @@
 @section('content')
     <header class="mt-3">
         <h1>{{$project->title}}</h1>
-        @if ($project->type)
-        <p>Tipologia: {{$project->type->label}}</p>            
-        @endif
+        <div class="d-flex gap-4">
+            <div>
+                Tipologia: 
+                @if ($project->type)
+                <span class="badge" style="background-color: {{$project->type->color}}">{{$project->type->label}}</span>            
+                @else
+                Nessuna
+                @endif
+            </div>
+            <div>
+                Tecnologie: 
+                @forelse ( $project->technologies as $tech )
+                <span class="badge rounded-pill text-bg-{{$tech->color}}" >{{$tech->label}}</span>               
+                @empty                  
+                <span>Nessuna</span>
+                @endforelse
+            </div>
+        </div>
     </header>
     <hr>
     <section class="py-3">

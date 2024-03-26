@@ -26,6 +26,7 @@
             <th scope="col">Title</th>
             <th scope="col">Slug</th>
             <th scope="col">Tipo</th>
+            <th scope="col">Tenologia</th>
             <th scope="col">Stato</th>
             <th scope="col">Creato il</th>
             <th scope="col">Ultima modifica</th>
@@ -48,6 +49,13 @@
                 @else
                   <span>Nessuna</span>
                 @endif
+              </td>
+              <td>
+                @forelse ( $project->technologies as $tech )
+                <span class="badge rounded-pill text-bg-{{$tech->color}}" >{{$tech->label}}</span>               
+                @empty                  
+                <span>Nessuna</span>
+                @endforelse
               </td>
               <td>{{$project->is_published ? 'Pubblicato' : 'Non pubblicato'}}</td>
               <td>{{$project->getFormatedDate('created_at')}}</td>
