@@ -61,7 +61,7 @@
             <label for="technologies">Seleziona le tecnologie usate:</label>
             @foreach ($techs as $tech)
             <div class="form-check form-check-inline" id="technologies">
-                <input class="form-check-input" type="checkbox" id="{{"tech-$tech->id"}}" value="{{$tech->id}}" name="techs[]" @if (in_array($tech->id, old('techs', []))) checked @endif>
+                <input class="form-check-input" type="checkbox" id="{{"tech-$tech->id"}}" value="{{$tech->id}}" name="techs[]" @if (in_array($tech->id, old('techs', $old_techs ?? []))) checked @endif>
                 <label class="form-check-label" for="{{"tech-$tech->id"}}">{{$tech->label}}</label>                    
             </div>
             @endforeach
